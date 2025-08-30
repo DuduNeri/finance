@@ -9,8 +9,16 @@ export class UserController{
     return user;
   }
 
-  async getUserById(id: string){
+  async getUser(id: string){
     const user = await userService.getUserById(id);
     return user;
+  }
+
+  async delete(id: string){
+    return userService.deleteUser(id)
+  }
+
+  async getAll(){
+    return userService.getAllUsers()
   }
 }
