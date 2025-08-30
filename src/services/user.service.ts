@@ -1,4 +1,3 @@
-import type { promises } from "dns";
 import { AppError } from "../errors/app.errors.js";
 import { IUser, IUserResponse, } from "../interfaces/user.interface.js";
 import userModel from "../models/user.model.js";
