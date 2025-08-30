@@ -4,7 +4,7 @@ import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
 export class UserService {
-  async createUser(data: IUser){
+  async create(data: IUser){
     if (!data.name || !data.email || !data.password) {
       throw new Error("Nome, email, e senha são obrigatórios");
     }
