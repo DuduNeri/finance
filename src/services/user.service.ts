@@ -40,10 +40,20 @@ export class UserService {
     return users;
   }
   //Função para deletar um usuário
-  async deleteUser(id: string): Promise<void>{
-      const user = await userModel.findByIdAndDelete(id)
-      if(!user){
-        throw new AppError(404, "Usuário não encontrado")
-      }
+  async deleteUser(id: string): Promise<void> {
+    const user = await userModel.findByIdAndDelete(id)
+    if (!user) {
+      throw new AppError(404, "Usuário não encontrado")
+    }
+  }
+  //Função para atualizar o 'name', 'amail' e 'password'
+  async update(id: string, data: IUser): Promise<IUserResponse> {
+    const updateUser = await userModel.findByIdAndUpdate(id, data, {
+      new: true
+    })
+    if (!updateUser) {
+      throw new Error("Usuário não encontrado");
+    }
+    return updateUser;
   }
 }

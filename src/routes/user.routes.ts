@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { UserController } from "../controllers/user.controller.js";
 import { AppError } from "../errors/app.errors.js";
+import { Request, Response } from "express";
 
 const UserRouter = Router();
 
-UserRouter.post("/", async (req, res) => {
+UserRouter.post("/", async (req: Request, res: Response) => {
   try {
     const newUser = await new UserController().create(req.body);
     res.status(201).json(newUser);
@@ -16,7 +17,7 @@ UserRouter.post("/", async (req, res) => {
   }
 })
 
-UserRouter.get("/:id", async (req, res) => {
+UserRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const userController = new UserController();
@@ -30,7 +31,7 @@ UserRouter.get("/:id", async (req, res) => {
   }
 });
 
-UserRouter.get("/", async (req, res) => {
+UserRouter.get("/", async (req: Request, res: Response) => {
   try {
     const userController = new UserController();
     const users = await userController.getAll();
@@ -43,18 +44,34 @@ UserRouter.get("/", async (req, res) => {
   }
 })
 
-UserRouter.delete("/:id", async (req, res) => {
+UserRouter.delete("/:id", async (req: Request, res: Response) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const userController = new UserController();
-    const user = await userController.delete(id)
-    res.status(200).json(user)
+    await userController.delete(id);
+
+    return res.status(200).json({ message: "Usuário deletado com sucesso" });
   } catch (error) {
-    if (error) {
-      new AppError(400, "Erro ao deletar usuário")
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
     }
-    res.status(500).json({ message: "Internal server error" })
+    return res.status(500).json({ message: "Internal server error" });
   }
-})
+});
+
+UserRouter.put("/:id", async (req: Request, res: Response) => {
+  try {
+    const userUp = await new UserController().update(req.params.id, req.body);
+    if (!userUp) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json(userUp);
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 export default UserRouter;
