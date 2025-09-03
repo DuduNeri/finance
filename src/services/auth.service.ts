@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs";
-import { authMiddleawre } from "../middlewares/authentication.js";
 import userModel from '../models/user.model.js';
 import { AppError } from '../errors/app.errors.js';
 
