@@ -1,8 +1,9 @@
 import { Request } from "express";
 
- export interface JwtPayload {
+export interface JwtPayload {
   id: string;
   email: string;
+  password: string
   role: string;
 }
 

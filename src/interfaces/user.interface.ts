@@ -1,13 +1,14 @@
 import { ObjectId } from "mongoose";
 
 export interface IUser {
-  _id?: ObjectId;           // ID do Mongo
+  _id?: ObjectId;           
   name: string;
   email: string;
   password: string;
   createdAt?: Date;
   updatedAt?: Date;
-  account?: ObjectId;       // referência à conta
+  account?: ObjectId;
+  role: "user" | "super_user";
 }
 
 export interface IUserResponse {
@@ -16,5 +17,4 @@ export interface IUserResponse {
    password?: string;
    createdAt: Date;
    updatedAt: Date;
-  
 }

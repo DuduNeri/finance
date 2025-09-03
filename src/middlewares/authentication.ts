@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
 import { AuthRequest, JwtPayload } from "../interfaces/auth.interface.js";
 
-export function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
+export async function authMiddleawre(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader)
     return res.status(401).json({ message: "Token não fornecido" });
