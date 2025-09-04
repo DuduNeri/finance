@@ -1,10 +1,7 @@
-import { Types } from "mongoose";
 
-export interface ITransaction {
-  _id?: Types.ObjectId;
-  account: Types.ObjectId;      // conta relacionada
-  type: "credit" | "debit";
+export interface ITransactionInput {
+  accountId: string;
+  type: "DEPOSIT" | "WITHDRAW";
   amount: number;
   description?: string;
-  createdAt?: Date;
 }

@@ -6,13 +6,13 @@ import { authMiddleawre } from "../middlewares/authentication.js";
 
 const UserRouter = Router();
 
-UserRouter.post("/", async  (req: Request, res: Response) => {
+UserRouter.post("/", async (req: Request, res: Response) => {
   try {
     const newUser = await new UserController().create(req.body);
     res.status(201).json(newUser);
   } catch (error) {
-    if (error) {
-      new AppError(400, "Erro ao cadastrar usuário")
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
     }
     res.status(500).json({ message: "Internal server error" });
   }
@@ -25,8 +25,8 @@ UserRouter.get("/:id", async (req: Request, res: Response) => {
     const user = await userController.getUser(id);
     res.status(200).json(user);
   } catch (error) {
-    if (error) {
-      new AppError(400, "Erro ao buscar usuário")
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
     }
     res.status(500).json({ message: "Internal server error" });
   }
@@ -38,8 +38,8 @@ UserRouter.get("/", async (req: Request, res: Response) => {
     const users = await userController.getAll();
     res.status(200).json(users);
   } catch (error) {
-    if (error) {
-      new AppError(400, "Erro ao buscar usuários")
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
     }
     res.status(500).json({ message: "Internal server error" });
   }
