@@ -5,7 +5,7 @@ const transactionService = new TransactionServices()
 
 export class TransactionController {
   async transaction(data: ITransactionInput){
-     const newTransaction = await transactionService.newTransaction(data)
-     return newTransaction;
+     const transact = await transactionService.newTransaction(data)
+     return transact;
   }
 }
