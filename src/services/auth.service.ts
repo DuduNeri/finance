@@ -4,7 +4,7 @@ import userModel from '../models/user.model.js';
 import { AppError } from '../errors/app.errors.js';
 
 export class AuthService {
-  async login(id: string, email: string, password: string){
+  async login(email: string, password: string){
      const user = await userModel.findOne({email})
      if(!user){
        throw new AppError(404, "Usuário não encontrado")
