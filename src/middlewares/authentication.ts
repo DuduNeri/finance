@@ -14,10 +14,10 @@ export async function authMiddleawre(req: Request, res: Response, next: NextFunc
     if (!decoded || !decoded.id || !decoded.email) {
       return res.status(401).json({ message: "Token inválido" });
     }
-    req.user = {
+    (req as any).user = {
       id: decoded.id,
       email: decoded.email,
-      role: decoded.role || "user"
+      role: decoded.role, // importante!
     };
     next();
   } catch {

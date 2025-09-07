@@ -1,4 +1,5 @@
 import { AppError } from "../errors/app.errors.js";
+import type { ITransactionInput } from "../interfaces/transaction.interface.js";
 import { IUser, IUserResponse, } from "../interfaces/user.interface.js";
 import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs";
@@ -32,7 +33,12 @@ export class UserService {
     return userWithoutPassword;
   }
   //Função para pegar todos os usuários
-  async getAllUsers(): Promise<IUserResponse[]> {
+  async getAllUsers(data: IUser): Promise<IUserResponse[]> {
+    console.log(data)
+    if ((data.role ?? "").toLowerCase() !== "super_user") {
+      throw new AppError(403, "Unauthorized");
+    }
+
     const users = await userModel.find().select('-password');
     if (!users || users.length === 0) {
       throw new Error("Nenhum usuário encontrado");

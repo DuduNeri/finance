@@ -1,5 +1,5 @@
 import { UserService } from "../services/user.service.js";
-import { IUser } from "../interfaces/user.interface.js";
+import { IUser, type IUserResponse } from "../interfaces/user.interface.js";
 
 const userService = new UserService();
 
@@ -18,8 +18,9 @@ export class UserController {
     return userService.deleteUser(id)
   }
 
-  async getAll() {
-    return userService.getAllUsers()
+  async getAll(requestingUser: IUser): Promise<IUserResponse[]>{
+    const users = await userService.getAllUsers(requestingUser);
+    return users;
   }
   async update(id: string, userData: IUser) {
     return userService.update(id, userData);

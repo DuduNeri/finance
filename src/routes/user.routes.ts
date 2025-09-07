@@ -32,10 +32,10 @@ UserRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-UserRouter.get("/", async (req: Request, res: Response) => {
+UserRouter.get("/", authMiddleawre, async (req: Request, res: Response) => {
   try {
     const userController = new UserController();
-    const users = await userController.getAll();
+    const users = await userController.getAll((req as any).user);
     res.status(200).json(users);
   } catch (error) {
     if (error instanceof AppError) {

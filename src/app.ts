@@ -12,6 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", UserRouter)
-app.use("/api/login", loginRoute)
+app.use("/api/users/login", loginRoute)
 
 export default app;
