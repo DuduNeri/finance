@@ -9,8 +9,7 @@ export interface IUser {
   account: ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
-}
-
+} 
 export interface IUserResponse {
   name: string;
   email: string;
