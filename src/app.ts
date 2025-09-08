@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import UserRouter from './routes/user.routes.js';
 import loginRoute from './routes/login.route.js';
+import transactionRouter from './routes/transaction.route.js';
 
 dotenv.config();
 
@@ -13,5 +14,6 @@ app.use(express.json());
 
 app.use("/api/users", UserRouter)
 app.use("/api/users/login", loginRoute)
+app.use("/api/transaction", transactionRouter)
 
 export default app;

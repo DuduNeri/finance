@@ -6,10 +6,9 @@ export interface IUser {
   email: string;
   password: string;
   role: "user" | "super_user";
+  account: ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
-  account?: ObjectId;
-
 }
 
 export interface IUserResponse {

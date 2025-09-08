@@ -1,9 +1,7 @@
-import { ObjectId } from 'mongoose';
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controller.js";
 import { AppError } from "../errors/app.errors.js";
 import { Request, Response } from "express";
-import { authMiddleawre } from '../middlewares/authentication.js';
 
 const loginRoute = Router();
 const authController = new AuthController();
