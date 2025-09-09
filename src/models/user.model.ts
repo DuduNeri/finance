@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     enum: ["user", "super_user"],
     default: "user"
   },
-  account: { type: mongoose.Schema.Types.ObjectId, ref: "Account" } // referência
+  account: { type: mongoose.Schema.Types.ObjectId, ref: "Account", required: false  } 
 });
 
 export default mongoose.model("User", UserSchema);

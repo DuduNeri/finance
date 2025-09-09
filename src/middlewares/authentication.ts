@@ -17,7 +17,7 @@ export async function authMiddleawre(req: Request, res: Response, next: NextFunc
     (req as any).user = {
       id: decoded.id,
       email: decoded.email,
-      role: decoded.role, // importante!
+      role: decoded.role, 
     };
     next();
   } catch {
