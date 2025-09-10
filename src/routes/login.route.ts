@@ -13,7 +13,6 @@ loginRoute.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Email e senha são obrigatórios" })
     }
     const data = await authController.signIn(email, password);
-    console.log(data)
     return res.json(data);
   } catch (error) {
     if (error instanceof AppError) {

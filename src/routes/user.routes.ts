@@ -14,6 +14,7 @@ UserRouter.post("/", async (req: Request, res: Response) => {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json({ message: error.message });
     }
+    console.log(error)
     res.status(500).json({ message: "Internal server error" });
   }
 })

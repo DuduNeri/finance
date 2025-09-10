@@ -32,7 +32,6 @@ async create(data: IUser): Promise<IUserResponse> {
   newUser.account = account._id;
   await newUser.save();
 
-  // 4️⃣ remove a senha antes de retornar
   const { password, ...userWithoutPassword } = newUser.toObject();
   return userWithoutPassword satisfies IUserResponse;
 }

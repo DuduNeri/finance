@@ -8,6 +8,7 @@ const transactionRouter = Router();
 transactionRouter.post("/", authMiddleawre , async (req: Request, res: Response) => {
   try {
     const transact = await new TransactionController().transaction(req.body)
+    console.log(transact)
     res.status(201).json(transact);
   } catch (error) {
     if (error instanceof AppError) {

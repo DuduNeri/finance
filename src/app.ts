@@ -14,6 +14,6 @@ app.use(express.json());
 
 app.use("/api/users", UserRouter)
 app.use("/api/users/login", loginRoute)
-app.use("/api/transaction", transactionRouter)
+app.use("/api/users/transaction", transactionRouter)
 
 export default app;
