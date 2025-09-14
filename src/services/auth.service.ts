@@ -4,7 +4,7 @@ import userModel from '../models/user.model.js';
 import { AppError } from '../errors/app.errors.js';
 
 export class AuthService {
-  async login(email: string, password: string) {
+  async login(name: string, email: string, password: string) {
     const user = await userModel.findOne({ email })
 
     if (!user) {
@@ -20,6 +20,7 @@ export class AuthService {
     const token = jwt.sign(
       {
         id: user.id,
+        name: user.name,
         email: user.email,
         role: user.role
       },

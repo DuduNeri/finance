@@ -8,8 +8,8 @@ const authController = new AuthController();
 
 loginRoute.post("/", async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
       return res.status(400).json({ message: "Email e senha são obrigatórios" })
     }
     const data = await authController.signIn(email, password);
