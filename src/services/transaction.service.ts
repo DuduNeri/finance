@@ -8,31 +8,47 @@ export class TransactionServices {
     if (data.amount <= 0) {
       throw new AppError(400, "O valor da transação deve ser maior que zero");
     }
-    
-    const account = await accountModel.findById(data.accountId)
-    if(!account){
-      throw new AppError(404, "Conta não encontroda")
+
+    const account = await accountModel.findById(data.accountId);
+    if (!account) {
+      throw new AppError(404, "Conta não encontroda");
     }
 
-    if(data.type === "WITHDRAW" && account.balance < data.amount){
-      throw new AppError(400, "Saldo insuficiente")
+    if (data.type === "WITHDRAW" && account.balance < data.amount) {
+      throw new AppError(400, "Saldo insuficiente");
     }
-    account.balance += data.type === "DEPOSIT" ? data.amount : -data.amount
-    
+    account.balance += data.type === "DEPOSIT" ? data.amount : -data.amount;
+
     const transaction = await transactionModel.create({
       account: account._id,
       type: data.type,
       amount: data.amount,
       description: data.description,
-    })
-    
-    account.transactions.push(transaction._id)
-    await account.save()
+    });
+
+    account.transactions.push(transaction._id);
+    await account.save();
 
     return {
       message: "Transação concluída",
       transaction,
-      newBalance: account.balance
+      newBalance: account.balance,
+    };
+  }
+
+  async getAccountById(accountId: string): Promise<ITransactionInput[]> {
+    const transactions = await transactionModel.find({ account: accountId });
+
+    if (!transactions.length) {
+      throw new AppError(404, "Nenhuma transação encontrada para essa conta");
     }
+
+    return transactions.map((t) => ({
+      accountId: t.account.toString(), // transforma ObjectId em string
+      type: t.type,
+      amount: t.amount,
+      description: t.description,
+      createdAt: t.createdAt,
+    }));
   }
 }

@@ -1,41 +1,39 @@
 import { AppError } from "../errors/app.errors.js";
-import type { ITransactionInput } from "../interfaces/transaction.interface.js";
 import { IUser, IUserResponse } from "../interfaces/user.interface.js";
 import accountModel from "../models/account.model.js";
 import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
 export class UserService {
-async create(data: IUser): Promise<IUserResponse> {
-  if (!data.name || !data.email || !data.password) {
-    throw new AppError(400, "Nome, email e senha são obrigatórios");
+  async create(data: IUser): Promise<IUserResponse> {
+    if (!data.name || !data.email || !data.password) {
+      throw new AppError(400, "Nome, email e senha são obrigatórios");
+    }
+
+    const existingUser = await userModel.findOne({ email: data.email });
+    if (existingUser) {
+      throw new AppError(409, "Este email já está em uso");
+    }
+
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    // 1 cria usuário sem account ainda
+    const newUser = new userModel({
+      ...data,
+      password: hashedPassword,
+    });
+    await newUser.save();
+
+    // 2️ cria a conta vinculada ao usuário
+    const account = await accountModel.create({ user: newUser._id });
+
+    // 3️ atualiza o usuário com o id da conta
+    newUser.account = account._id;
+    await newUser.save();
+
+    const { password, ...userWithoutPassword } = newUser.toObject();
+    return userWithoutPassword satisfies IUserResponse;
   }
-
-  const existingUser = await userModel.findOne({ email: data.email });
-  if (existingUser) {
-    throw new AppError(409, "Este email já está em uso");
-  }
-
-  const hashedPassword = await bcrypt.hash(data.password, 10);
-
-  // 1️⃣ cria usuário sem account ainda
-  const newUser = new userModel({
-    ...data,
-    password: hashedPassword
-  });
-  await newUser.save();
-
-  // 2️⃣ cria a conta vinculada ao usuário
-  const account = await accountModel.create({ user: newUser._id });
-
-  // 3️⃣ atualiza o usuário com o id da conta
-  newUser.account = account._id;
-  await newUser.save();
-
-  const { password, ...userWithoutPassword } = newUser.toObject();
-  return userWithoutPassword satisfies IUserResponse;
-}
-
 
   async getUserById(id: string): Promise<IUserResponse> {
     const user = await userModel.findById(id).select("-password");

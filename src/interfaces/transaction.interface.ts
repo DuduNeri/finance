@@ -1,6 +1,6 @@
 
 export interface ITransactionInput {
-  accountId: string;
+  account: string;
   type: "DEPOSIT" | "WITHDRAW";
   amount: number;
   description?: string;

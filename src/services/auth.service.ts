@@ -5,7 +5,7 @@ import { AppError } from '../errors/app.errors.js';
 
 export class AuthService {
   async login(name: string, email: string, password: string) {
-    const user = await userModel.findOne({ email })
+    const user = await userModel.findOne({ name, email })
 
     if (!user) {
       throw new AppError(404, "Usuário não encontrado")

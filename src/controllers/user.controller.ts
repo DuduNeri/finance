@@ -1,28 +1,30 @@
 import { UserService } from "../services/user.service.js";
 import { IUser, type IUserResponse } from "../interfaces/user.interface.js";
 
-const userService = new UserService();
-
 export class UserController {
+  private userService: UserService;
+
+  constructor() {
+    this.userService = new UserService();
+  }
+
   async create(data: IUser) {
-    const user = await userService.create(data);
-    return user;
+    return this.userService.create(data)
   }
 
   async getUser(id: string) {
-    const user = await userService.getUserById(id);
-    return user;
+    return this.userService.deleteUser(id)
   }
 
   async delete(id: string) {
-    return userService.deleteUser(id)
+    return this.userService.deleteUser(id);
   }
 
-  async getAll(requestingUser: IUser): Promise<IUserResponse[]>{
-    const users = await userService.getAllUsers(requestingUser);
-    return users;
+  async getAll(requestingUser: IUser): Promise<IUserResponse[]> {
+    return this.userService.getAllUsers(requestingUser)
   }
+
   async update(id: string, userData: IUser) {
-    return userService.update(id, userData);
+    return this.userService.update(id, userData);
   }
 }
