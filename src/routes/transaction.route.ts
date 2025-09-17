@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import { TransactionController } from "../controllers/transaction.controller.js";
 import { Router, Request, Response } from "express";
 import { AppError } from "../errors/app.errors.js";
@@ -5,24 +6,33 @@ import { authMiddleawre } from "../middlewares/authentication.js";
 
 const transactionRouter = Router();
 
-transactionRouter.post("/", authMiddleawre , async (req: Request, res: Response) => {
+transactionRouter.post( "/",authMiddleawre,
+  async (req: Request, res: Response) => {
+    try {
+      const transact = await new TransactionController().transaction(req.body);
+      console.log(transact);
+      res.status(201).json(transact);
+    } catch (error) {
+      if (error instanceof AppError) {
+        return res.status(error.statusCode).json({ message: error.message });
+      }
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
+
+transactionRouter.get("/:ObjectId", 
+  async (req: Request, res: Response) => {
   try {
-    const transact = await new TransactionController().transaction(req.body)
-    console.log(transact)
-    res.status(201).json(transact);
+    const accountId = req.params.accountId;
+    const getccount = await new TransactionController();
+    const get = getccount.getAccount(accountId);
+    res.status(200).json(get);
   } catch (error) {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json({ message: error.message });
     }
     res.status(500).json({ message: "Internal server error" });
   }
-})
-
-transactionRouter.post("/", async (req: Request, res: Response) => {
-   try {
-   
-   } catch (error) {
-    
-   }
-})
+});
 export default transactionRouter;
