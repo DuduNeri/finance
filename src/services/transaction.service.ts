@@ -1,8 +1,8 @@
 import { AppError } from "../errors/app.errors.js";
+import type { IGetAccount } from "../interfaces/account.interface.js";
 import { ITransactionInput } from "../interfaces/transaction.interface.js";
 import accountModel from "../models/account.model.js";
 import transactionModel from "../models/transaction.model.js";
-import { Types } from "mongoose";
 
 export class TransactionServices {
   async newTransaction(data: ITransactionInput) {
@@ -37,22 +37,16 @@ export class TransactionServices {
     };
   }
 
+  async getAccountById(accountId: string): Promise<IGetAccount> {
+    const account = await accountModel.findById(accountId);
 
+    if (!account) {
+      throw new AppError(404, "Conta não encontrada");
+    }
 
-async  getAccountById(accountId: string) {
-  const account = await accountModel
-    .findById(accountId)
-    .populate<{ name: string }>("user", "name") // aqui diz pro TS que user terá name
-    .lean();
-
-  if (!account) {
-    throw new AppError(400, "Conta não encontrada");
+    return {
+      _id: account._id,
+      balance: account.balance,
+    };
   }
-
-  return {
-    name: account.user.toJSON,
-    balance: account.balance,
-  };
-}
-
 }

@@ -1,10 +1,15 @@
-import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 
 export interface IAccount {
-  _id?: ObjectId;
-  user: ObjectId;          
+  _id?: Types.ObjectId;
+  user: Types.ObjectId;          
   balance: number;         
-  transactions?: ObjectId[]; 
+  transactions?: Types.ObjectId[]; 
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface IGetAccount {
+  _id: Types.ObjectId;
+  balance: number;    
 }
