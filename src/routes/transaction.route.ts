@@ -5,8 +5,7 @@ import { authMiddleawre } from "../middlewares/authentication.js";
 
 const transactionRouter = Router();
 
-transactionRouter.post(
-  "/",
+transactionRouter.post( "/:id", 
   authMiddleawre,
   async (req: Request, res: Response) => {
     try {

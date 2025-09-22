@@ -6,7 +6,8 @@ import { authMiddleawre } from "../middlewares/authentication.js";
 
 const UserRouter = Router();
 
-UserRouter.post("/", async (req: Request, res: Response) => {
+UserRouter.post("/", 
+  async (req: Request, res: Response) => {
   try {
     const newUser = await new UserController().create(req.body);
     res.status(201).json(newUser);
@@ -19,7 +20,8 @@ UserRouter.post("/", async (req: Request, res: Response) => {
   }
 })
 
-UserRouter.get("/:id", async (req: Request, res: Response) => {
+UserRouter.get("/:id", 
+  async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const userController = new UserController();
@@ -33,7 +35,8 @@ UserRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-UserRouter.get("/", authMiddleawre, async (req: Request, res: Response) => {
+UserRouter.get("/", authMiddleawre,
+  async (req: Request, res: Response) => {
   try {
     const userController = new UserController();
     const users = await userController.getAll((req as any).user);
@@ -46,7 +49,8 @@ UserRouter.get("/", authMiddleawre, async (req: Request, res: Response) => {
   }
 })
 
-UserRouter.delete("/:id", authMiddleawre, async (req: Request, res: Response) => {
+UserRouter.delete("/:id", authMiddleawre, 
+  async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const userController = new UserController();
@@ -61,7 +65,8 @@ UserRouter.delete("/:id", authMiddleawre, async (req: Request, res: Response) =>
   }
 });
 
-UserRouter.put("/:id", authMiddleawre, async (req: Request, res: Response) => {
+UserRouter.put("/:id", authMiddleawre, 
+  async (req: Request, res: Response) => {
   try {
     const userUp = await new UserController().update(req.params.id, req.body);
     if (!userUp) {

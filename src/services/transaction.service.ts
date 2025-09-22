@@ -18,6 +18,9 @@ export class TransactionServices {
     if (data.type === "WITHDRAW" && account.balance < data.amount) {
       throw new AppError(400, "Saldo insuficiente");
     }
+    if(data.amount -= 0){
+      throw new AppError( 400,"Saldo insuficiente")
+    }
     account.balance += data.type === "DEPOSIT" ? data.amount : -data.amount;
 
     const transaction = await transactionModel.create({

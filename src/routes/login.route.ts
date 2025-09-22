@@ -6,7 +6,8 @@ import { Request, Response } from "express";
 const loginRoute = Router();
 const authController = new AuthController();
 
-loginRoute.post("/", async (req: Request, res: Response) => {
+loginRoute.post("/", 
+  async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {

@@ -17,17 +17,14 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    // 1 cria usuário sem account ainda
     const newUser = new userModel({
       ...data,
       password: hashedPassword,
     });
     await newUser.save();
 
-    // 2️ cria a conta vinculada ao usuário
     const account = await accountModel.create({ user: newUser._id });
 
-    // 3️ atualiza o usuário com o id da conta
     newUser.account = account._id;
     await newUser.save();
 
